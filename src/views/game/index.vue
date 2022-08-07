@@ -34,7 +34,7 @@
       style="margin-top: 20px; text-align: right"
       :page-size="pageSize"
       background
-      :total="1000"
+      :total="total"
       layout="prev, pager, next, jumper"
       :current-page="currentPage"
       @current-change="onCurrentPageChange"
