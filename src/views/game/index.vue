@@ -26,6 +26,9 @@
           <el-button type="text" size="small" @click="showEditDialog(scope.row)"
             >编辑</el-button
           >
+          <el-button type="text" size="small" @click="deleteGame(scope.row)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -54,7 +57,7 @@
 </template>
 
 <script>
-import { getGames, getGameTypes } from '@/api/game'
+import { getGames, getGameTypes, deleteGame } from '@/api/game'
 import GameEdit from './gameEdit.vue'
 import GameAdd from './gameAdd.vue'
 export default {
@@ -86,6 +89,22 @@ export default {
   methods: {
     onSuccess() {
       this.getGames()
+    },
+    deleteGame(item) {
+      this.$confirm(`确定删除 <${item.name}>?`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const ret = await deleteGame({ id: item.id })
+        if (ret) {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+          this.getGames()
+        }
+      })
     },
     showAddDialog() {},
     // 显示游戏编辑弹窗

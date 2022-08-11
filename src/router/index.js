@@ -70,6 +70,30 @@ export const constantRoutes = [
       },
     ],
   },
+  {
+    path: "/platform",
+    component: Layout,
+    children: [
+      {
+        path: "index",
+        name: "Platform",
+        component: () => import("@/views/platform/index"),
+        meta: { title: "平台管理", icon: "form" },
+      },
+    ],
+  },
+  {
+    path: "/gameType",
+    component: Layout,
+    children: [
+      {
+        path: "index",
+        name: "GameType",
+        component: () => import("@/views/gameType/index"),
+        meta: { title: "类型管理", icon: "form" },
+      },
+    ],
+  },
 
   // 404 page must be placed at the end !!!
   { path: "*", redirect: "/404", hidden: true },

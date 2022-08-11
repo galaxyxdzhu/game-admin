@@ -31,3 +31,11 @@ export function addGame(data) {
     data,
   });
 }
+// 删除游戏
+export function deleteGame(data) {
+  return request({
+    url: "/game/delete",
+    method: "post",
+    data,
+  });
+}
