@@ -8,9 +8,9 @@
         <el-select v-model="form.genre" placeholder="请选择活动区域">
           <el-option
             v-for="type in gameTypes"
-            :key="type"
-            :label="type"
-            :value="type"
+            :key="type.id"
+            :label="type.name"
+            :value="type.name"
           ></el-option>
         </el-select>
       </el-form-item>

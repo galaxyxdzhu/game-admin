@@ -1,9 +1,24 @@
 <template>
   <div class="app-container">
     <!-- 表格 -->
-    <el-button type="primary" style="margin-bottom: 10px" @click="showAddDialog"
-      >添加游戏</el-button
-    >
+    <div class="title">
+      <el-button
+        type="primary"
+        style="margin-bottom: 10px"
+        @click="showAddDialog"
+        >添加游戏</el-button
+      >
+      <el-input
+        style="width: 320px"
+        placeholder="请输入内容"
+        v-model="search"
+        clearable
+        class="input-with-select"
+        @input="handleSearch"
+      >
+        <el-button slot="append" icon="el-icon-search"></el-button>
+      </el-input>
+    </div>
     <el-table
       :data="games"
       border
@@ -57,9 +72,11 @@
 </template>
 
 <script>
-import { getGames, getGameTypes, deleteGame } from '@/api/game'
+import { getGames, deleteGame } from '@/api/game'
+import { getGameTypes } from '@/api/gameType'
 import GameEdit from './gameEdit.vue'
 import GameAdd from './gameAdd.vue'
+import { mapActions } from 'vuex'
 export default {
   components: {
     GameEdit,
@@ -68,10 +85,12 @@ export default {
   data() {
     return {
       totalGames: [],
+      originGames: [],
       gameTypes: [],
       currentPage: 1,
       pageSize: 15,
       total: 0,
+      search: '',
       currentGame: null
     }
   },
@@ -87,8 +106,23 @@ export default {
     this.getGameTypes()
   },
   methods: {
+    ...mapActions({
+      setGameList: 'game/setGameList'
+    }),
     onSuccess() {
       this.getGames()
+    },
+
+    handleSearch() {
+      if (this.search) {
+        this.totalGames = this.totalGames.filter(
+          (item) => item.name.indexOf(this.search) !== -1
+        )
+        this.total = this.totalGames.length
+      } else {
+        this.totalGames = [...this.originGames]
+        this.total = this.totalGames.length
+      }
     },
     deleteGame(item) {
       this.$confirm(`确定删除 <${item.name}>?`, '提示', {
@@ -121,8 +155,11 @@ export default {
       const ret = await getGames()
       if (ret) {
         const { data } = ret
-        this.totalGames = data
-        this.total = data.length
+        const games = data.sort((a, b) => b.id - a.id)
+        this.totalGames = [...games]
+        this.originGames = [...games]
+        this.total = games.length
+        this.setGameList(data)
       }
     },
     async getGameTypes() {
@@ -139,5 +176,10 @@ export default {
 }
 </script>
 
-<style >
+<style lang="scss" scoped>
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 </style>

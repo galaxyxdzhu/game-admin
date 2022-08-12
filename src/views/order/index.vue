@@ -23,9 +23,16 @@
           <span>{{ toDate(scope.row.createAt) }}</span>
         </template>
       </el-table-column>
-      <!-- <el-table-column label="操作">
-        <template slot-scope="scope"> </template>
-      </el-table-column> -->
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button
+            type="text"
+            size="small"
+            @click="showOrderDetail(scope.row)"
+            >查看</el-button
+          >
+        </template>
+      </el-table-column>
     </el-table>
 
     <el-pagination
@@ -78,6 +85,9 @@ export default {
     }
   },
   methods: {
+    showOrderDetail(item) {
+      this.$router.push({ name: 'OrderDetail', params: { id: item.id } })
+    },
     onCurrentPageChange(val) {
       this.currentPage = val
     },
@@ -104,6 +114,7 @@ export default {
         this.total = ret.data.length
       }
     },
+
     async getGames() {
       const ret = await getGames()
       if (ret) {

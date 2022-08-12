@@ -94,6 +94,23 @@ export const constantRoutes = [
       },
     ],
   },
+  {
+    path: "/size",
+    component: Layout,
+    children: [
+      {
+        path: "index",
+        name: "Sizes",
+        component: () => import("@/views/sizes/index"),
+        meta: { title: "容量管理", icon: "form" },
+      },
+    ],
+  },
+  {
+    path: "/orderDetail/:id",
+    name: "OrderDetail",
+    component: () => import("@/views/orderDetail/index"),
+  },
 
   // 404 page must be placed at the end !!!
   { path: "*", redirect: "/404", hidden: true },

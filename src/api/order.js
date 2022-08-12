@@ -6,3 +6,11 @@ export function getOrders() {
     method: "get",
   });
 }
+
+export function getOrderDetail(params) {
+  return request({
+    url: "/order/orderDetail",
+    method: "get",
+    params,
+  });
+}
