@@ -17,6 +17,9 @@
       <el-form-item label="游戏尺寸">
         <el-input v-model="form.size"></el-input>
       </el-form-item>
+      <el-form-item label="游戏评分">
+        <el-input v-model="form.rate"></el-input>
+      </el-form-item>
 
       <el-form-item label="游戏封面">
         <el-input v-model="form.src"></el-input>
@@ -55,7 +58,8 @@ export default {
         name: '',
         src: '',
         size: '',
-        genre: ''
+        genre: '',
+        rate: ''
       },
       visible: false
     }
