@@ -10,7 +10,7 @@
         <el-upload
           class="upload-demo"
           :multiple="false"
-          action="/upload"
+          action="/api/upload"
           list-type="picture"
           :on-success="onUploadSuccess"
         >
