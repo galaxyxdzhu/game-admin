@@ -26,7 +26,7 @@
         <el-upload
           class="upload-demo"
           :multiple="false"
-          action="http://127.0.0.1:3000/upload"
+          action="/api/upload"
           list-type="picture"
           :on-success="onUploadSuccess"
         >
