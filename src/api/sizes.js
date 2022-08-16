@@ -13,6 +13,13 @@ export function addSize(data) {
     data,
   });
 }
+export function updateSize(data) {
+  return request({
+    url: "/size/update",
+    method: "post",
+    data,
+  });
+}
 export function deleteSize(data) {
   return request({
     url: "/size/delete",

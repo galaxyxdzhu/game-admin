@@ -13,6 +13,13 @@ export function addPlatform(data) {
     data,
   });
 }
+export function updatePlatform(data) {
+  return request({
+    url: "/platform/update",
+    method: "post",
+    data,
+  });
+}
 export function deletePlatform(data) {
   return request({
     url: "/platform/delete",

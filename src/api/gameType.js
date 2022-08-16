@@ -13,6 +13,13 @@ export function addGameType(data) {
     data,
   });
 }
+export function updateGameType(data) {
+  return request({
+    url: "/gameType/update",
+    method: "post",
+    data,
+  });
+}
 export function deleteGameType(data) {
   return request({
     url: "/gameType/delete",

@@ -19,19 +19,6 @@ export const constantRoutes = [
     hidden: true,
   },
 
-  // {
-  //   path: "/",
-  //   component: Layout,
-  //   redirect: "/dashboard",
-  //   children: [
-  //     {
-  //       path: "dashboard",
-  //       name: "Dashboard",
-  //       component: () => import("@/views/dashboard/index"),
-  //       meta: { title: "主面板", icon: "dashboard" },
-  //     },
-  //   ],
-  // },
   {
     path: "/",
     component: Layout,
@@ -41,44 +28,7 @@ export const constantRoutes = [
         path: "/game",
         name: "Game",
         component: () => import("@/views/game/index"),
-        meta: { title: "游戏管理", icon: "form" },
-      },
-    ],
-  },
-
-  // {
-  //   path: "/size",
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: "index",
-  //       name: "Size",
-  //       component: () => import("@/views/size/index"),
-  //       meta: { title: "容量管理", icon: "form" },
-  //     },
-  //   ],
-  // },
-  {
-    path: "/order",
-    component: Layout,
-    children: [
-      {
-        path: "index",
-        name: "Order",
-        component: () => import("@/views/order/index"),
-        meta: { title: "订单管理", icon: "form" },
-      },
-    ],
-  },
-  {
-    path: "/platform",
-    component: Layout,
-    children: [
-      {
-        path: "index",
-        name: "Platform",
-        component: () => import("@/views/platform/index"),
-        meta: { title: "平台管理", icon: "form" },
+        meta: { title: "游戏管理", icon: "table" },
       },
     ],
   },
@@ -90,10 +40,23 @@ export const constantRoutes = [
         path: "index",
         name: "GameType",
         component: () => import("@/views/gameType/index"),
-        meta: { title: "类型管理", icon: "form" },
+        meta: { title: "游戏类型管理", icon: "nested" },
       },
     ],
   },
+  {
+    path: "/platform",
+    component: Layout,
+    children: [
+      {
+        path: "index",
+        name: "Platform",
+        component: () => import("@/views/platform/index"),
+        meta: { title: "平台管理", icon: "tree" },
+      },
+    ],
+  },
+
   {
     path: "/size",
     component: Layout,
@@ -102,7 +65,19 @@ export const constantRoutes = [
         path: "index",
         name: "Sizes",
         component: () => import("@/views/sizes/index"),
-        meta: { title: "容量管理", icon: "form" },
+        meta: { title: "容量管理", icon: "example" },
+      },
+    ],
+  },
+  {
+    path: "/order",
+    component: Layout,
+    children: [
+      {
+        path: "index",
+        name: "Order",
+        component: () => import("@/views/order/index"),
+        meta: { title: "订单管理", icon: "form" },
       },
     ],
   },

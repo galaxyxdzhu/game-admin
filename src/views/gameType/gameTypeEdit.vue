@@ -6,19 +6,19 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">立即创建</el-button>
+        <el-button type="primary" @click="onSubmit">更新</el-button>
         <el-button @click="hide">取消</el-button>
       </el-form-item>
     </el-form>
   </el-dialog>
-</template>
+</template> 
 
 <script>
-import { addGameType } from '@/api/gameType'
+import { updateGameType } from '@/api/gameType'
 export default {
   props: {
-    gameTypes: {
-      type: Array,
+    gameType: {
+      type: Object,
       require: true
     },
     types: {
@@ -47,17 +47,28 @@ export default {
       visible: false
     }
   },
-
-  methods: {
-    async onSubmit() {
-      const ret = await addGameType(this.form)
-      if (ret.code) {
-        this.$emit('updateSuccess')
-        this.$message.success('添加成功')
-      } else {
-        this.$message.success('添加失败')
+  watch: {
+    gameType: {
+      immediate: true,
+      handler(val) {
+        this.form = { ...val }
       }
-      this.hide()
+    }
+  },
+  methods: {
+    onSubmit() {
+      this.$refs.form.validate(async (valid) => {
+        if (valid) {
+          const ret = await updateGameType(this.form)
+          if (ret.code) {
+            this.$emit('updateSuccess')
+            this.$message.success('更新成功')
+          } else {
+            this.$message.success('更新失败')
+          }
+          this.hide()
+        }
+      })
     },
     show() {
       this.visible = true

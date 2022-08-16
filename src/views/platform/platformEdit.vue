@@ -10,7 +10,7 @@
         <el-upload
           class="upload-demo"
           :multiple="false"
-          action="/upload"
+          action="http://127.0.0.1:3000/upload"
           list-type="picture"
           :on-success="onUploadSuccess"
         >
@@ -19,7 +19,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">立即创建</el-button>
+        <el-button type="primary" @click="onSubmit">更新</el-button>
         <el-button @click="hide">取消</el-button>
       </el-form-item>
     </el-form>
@@ -27,11 +27,11 @@
 </template>
 
 <script>
-import { addPlatform } from '@/api/platform'
+import { updatePlatform } from '@/api/platform'
 export default {
   props: {
-    gameTypes: {
-      type: Array,
+    platform: {
+      type: Object,
       require: true
     }
   },
@@ -44,6 +44,14 @@ export default {
       visible: false
     }
   },
+  watch: {
+    platform: {
+      immediate: true,
+      handler(val) {
+        this.form = { ...val }
+      }
+    }
+  },
 
   methods: {
     onUploadSuccess(res) {
@@ -52,12 +60,12 @@ export default {
       }
     },
     async onSubmit() {
-      const ret = await addPlatform(this.form)
+      const ret = await updatePlatform(this.form)
       if (ret.code) {
         this.$emit('updateSuccess')
-        this.$message.success('添加成功')
+        this.$message.success('更新成功')
       } else {
-        this.$message.success('添加失败')
+        this.$message.success('更新失败')
       }
       this.hide()
     },

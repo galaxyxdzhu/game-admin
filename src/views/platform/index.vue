@@ -14,26 +14,38 @@
       <el-table-column prop="src" label="平台封面"> </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
+          <el-button type="text" size="small" @click="editPlatform(scope.row)"
+            >编辑</el-button
+          >
           <el-button type="text" size="small" @click="deletePlatform(scope.row)"
             >删除</el-button
           >
         </template>
       </el-table-column>
     </el-table>
-    <PlatformAdd ref="platformAdd" @updateSuccess="handleAddSuccess" />
+    <PlatformAdd ref="platformAdd" @updateSuccess="handleSuccess" />
+    <PlatformEdit
+      :platform="curPlatform"
+      ref="platformEdit"
+      @updateSuccess="handleSuccess"
+    />
   </div>
 </template>
 
 <script>
 import { getPlatforms, deletePlatform } from '@/api/platform'
 import PlatformAdd from './platformAdd.vue'
+import PlatformEdit from './platformEdit.vue'
+
 export default {
   components: {
-    PlatformAdd
+    PlatformAdd,
+    PlatformEdit
   },
   data() {
     return {
-      platforms: []
+      platforms: [],
+      curPlatform: null
     }
   },
   created() {
@@ -44,7 +56,11 @@ export default {
     showAddDialog() {
       this.$refs.platformAdd.show()
     },
-    handleAddSuccess() {
+    editPlatform(val) {
+      this.curPlatform = val
+      this.$refs.platformEdit.show()
+    },
+    handleSuccess() {
       this.getPlatforms()
     },
     async getPlatforms() {

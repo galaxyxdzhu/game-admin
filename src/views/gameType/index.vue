@@ -14,6 +14,9 @@
 
       <el-table-column label="操作">
         <template slot-scope="scope">
+          <el-button type="text" size="small" @click="editPlatform(scope.row)"
+            >编辑</el-button
+          >
           <el-button type="text" size="small" @click="deletePlatform(scope.row)"
             >删除</el-button
           >
@@ -32,23 +35,36 @@
     >
     </el-pagination>
 
-    <GameTypeAdd ref="gameTypeAdd" @updateSuccess="handleAddSuccess" />
+    <GameTypeAdd
+      ref="gameTypeAdd"
+      :types="totalTypes"
+      @updateSuccess="handleSuccess"
+    />
+    <GameTypeEdit
+      ref="gameTypeEdit"
+      @updateSuccess="handleSuccess"
+      :gameType="curGameType"
+      :types="totalTypes"
+    />
   </div>
 </template>
 
 <script>
 import { getGameTypes, deleteGameType } from '@/api/gameType'
 import GameTypeAdd from './gameTypeAdd.vue'
+import GameTypeEdit from './gameTypeEdit.vue'
 export default {
   components: {
-    GameTypeAdd
+    GameTypeAdd,
+    GameTypeEdit
   },
   data() {
     return {
       totalTypes: [],
       currentPage: 1,
       pageSize: 15,
-      total: 0
+      total: 0,
+      curGameType: null
     }
   },
 
@@ -70,10 +86,14 @@ export default {
         this.total = ret.data.length
       }
     },
+    editPlatform(type) {
+      this.curGameType = type
+      this.$refs.gameTypeEdit.show()
+    },
     showAddDialog() {
       this.$refs.gameTypeAdd.show()
     },
-    handleAddSuccess() {
+    handleSuccess() {
       this.getGameTypes()
     },
     onCurrentPageChange(val) {

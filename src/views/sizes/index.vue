@@ -14,26 +14,33 @@
       <el-table-column prop="actualSize" label="实际容量"> </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
+          <el-button type="text" size="small" @click="editSize(scope.row)"
+            >编辑</el-button
+          >
           <el-button type="text" size="small" @click="deleteSize(scope.row)"
             >删除</el-button
           >
         </template>
       </el-table-column>
     </el-table>
-    <SizeAdd ref="sizeAdd" @updateSuccess="handleAddSuccess" />
+    <SizeAdd ref="sizeAdd" @updateSuccess="handleSuccess" />
+    <SizeEdit ref="sizeEdit" :size="curSize" @updateSuccess="handleSuccess" />
   </div>
 </template>
 
 <script>
 import { getSizes, deleteSize } from '@/api/sizes'
 import SizeAdd from './sizeAdd.vue'
+import SizeEdit from './sizeEdit.vue'
 export default {
   components: {
-    SizeAdd
+    SizeAdd,
+    SizeEdit
   },
   data() {
     return {
-      sizes: []
+      sizes: [],
+      curSize: null
     }
   },
   created() {
@@ -44,7 +51,11 @@ export default {
     showAddDialog() {
       this.$refs.sizeAdd.show()
     },
-    handleAddSuccess() {
+    editSize(val) {
+      this.curSize = val
+      this.$refs.sizeEdit.show()
+    },
+    handleSuccess() {
       this.getSizes()
     },
     async getSizes() {
