@@ -30,6 +30,7 @@
       <el-table-column prop="genre" label="游戏类型"> </el-table-column>
       <el-table-column prop="size" label="游戏大小"> </el-table-column>
       <el-table-column prop="rate" label="游戏评分"> </el-table-column>
+      <el-table-column prop="platform" label="游戏平台"> </el-table-column>
       <el-table-column prop="src" label="游戏封面">
         <template slot-scope="scope">
           <a style="color: #409eff" :href="scope.row.src" target="_blank">{{

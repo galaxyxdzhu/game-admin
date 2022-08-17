@@ -30,12 +30,12 @@
           list-type="picture"
           :on-success="onUploadSuccess"
         >
-          <el-button size="small" type="primary">点击上传</el-button>
+          <el-button size="small" type="text">点击上传</el-button>
         </el-upload>
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">立即创建</el-button>
+        <el-button type="primary" @click="onSubmit">更新</el-button>
         <el-button @click="hide">取消</el-button>
       </el-form-item>
     </el-form>
