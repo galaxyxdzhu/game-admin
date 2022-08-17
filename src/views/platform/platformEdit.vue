@@ -65,7 +65,7 @@ export default {
         this.$emit('updateSuccess')
         this.$message.success('更新成功')
       } else {
-        this.$message.success('更新失败')
+        this.$message.error('更新失败')
       }
       this.hide()
     },

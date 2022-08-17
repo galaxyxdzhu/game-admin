@@ -15,6 +15,7 @@
           <div v-for="item in selectGames(scope.row.games)" :key="item.id">
             {{ item.name }}
           </div>
+          <div v-if="isShowGamedots(scope.row.games)">...</div>
         </template>
       </el-table-column>
 
@@ -57,8 +58,9 @@ export default {
       totalOrders: [],
       games: [],
       currentPage: 1,
-      pageSize: 15,
-      total: 0
+      pageSize: 10,
+      total: 0,
+      showGamesNumber: 4
     }
   },
 
@@ -70,12 +72,21 @@ export default {
     selectGames() {
       return (ids) => {
         if (this.games && this.orders && ids) {
-          const idsArray = ids.split(',')
+          let idsArray = ids.split(',')
+          idsArray =
+            idsArray.length > this.showGamesNumber
+              ? idsArray.slice(0, this.showGamesNumber)
+              : idsArray
           return idsArray.map((id) => {
             return this.games.find((game) => game.id == id)
           })
         }
         return []
+      }
+    },
+    isShowGamedots() {
+      return (ids) => {
+        return ids.split(',').length > this.showGamesNumber
       }
     },
     orders() {
@@ -110,7 +121,7 @@ export default {
     async getOrders() {
       const ret = await getOrders()
       if (ret) {
-        this.totalOrders = ret.data
+        this.totalOrders = ret.data.sort((a, b) => b.createAt - a.createAt)
         this.total = ret.data.length
       }
     },

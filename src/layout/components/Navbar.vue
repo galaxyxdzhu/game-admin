@@ -23,12 +23,32 @@
             <el-dropdown-item> Home </el-dropdown-item>
           </router-link>
 
+          <el-dropdown-item divided @click.native="showPassWordDialog">
+            <span style="display: block">修改密码</span>
+          </el-dropdown-item>
           <el-dropdown-item divided @click.native="logout">
             <span style="display: block">Log Out</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+
+    <el-dialog title="修改密码" :visible.sync="visible" width="30%">
+      <el-form ref="form" :model="form" label-width="80px" :rules="rules">
+        <el-form-item label="用户名">
+          <el-input v-model="form.username" disabled></el-input>
+        </el-form-item>
+
+        <el-form-item prop="password" label="新密码">
+          <el-input v-model="form.password"></el-input>
+        </el-form-item>
+
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit">立即修改</el-button>
+          <el-button @click="visible = false">取消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -37,14 +57,34 @@ import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import avatarImage from '@/assets/images/avatar.jpeg'
-
+import { changePassword } from '@/api/user'
 export default {
   components: {
     Breadcrumb,
     Hamburger
   },
   data() {
+    const validator = (rule, value, callback) => {
+      if (value.length < 6) {
+        return callback(new Error('密码长度不得低于6位数'))
+      }
+      return callback()
+    }
     return {
+      form: {
+        username: 'admin',
+        password: ''
+      },
+      rules: {
+        password: [
+          { required: true, message: '密码为必填项', trigger: 'blur' },
+          {
+            validator,
+            trigger: 'blur'
+          }
+        ]
+      },
+      visible: false,
       avatar: avatarImage
     }
   },
@@ -52,6 +92,23 @@ export default {
     ...mapGetters(['sidebar'])
   },
   methods: {
+    showPassWordDialog() {
+      this.visible = true
+    },
+    onSubmit() {
+      this.$refs['form'].validate(async (valid) => {
+        if (valid) {
+          const ret = await changePassword(this.form)
+          if (ret) {
+            this.visible = false
+            this.$message.success('修改成功')
+            setTimeout(() => {
+              this.logout()
+            }, 1000)
+          }
+        }
+      })
+    },
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },

@@ -82,6 +82,18 @@ export const constantRoutes = [
     ],
   },
   {
+    path: "/setting",
+    component: Layout,
+    children: [
+      {
+        path: "index",
+        name: "Setting",
+        component: () => import("@/views/sets/index"),
+        meta: { title: "显示配置", icon: "link" },
+      },
+    ],
+  },
+  {
     path: "/orderDetail/:id",
     name: "OrderDetail",
     component: () => import("@/views/orderDetail/index"),
