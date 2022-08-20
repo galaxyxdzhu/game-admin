@@ -5,12 +5,22 @@
         <el-input v-model="form.name"></el-input>
       </el-form-item>
       <el-form-item label="游戏类型">
-        <el-select v-model="form.genre" placeholder="请选择活动区域">
+        <el-select v-model="form.genre" placeholder="请选择游戏类型">
           <el-option
             v-for="type in gameTypes"
             :key="type.id"
             :label="type.name"
             :value="type.name"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="游戏平台">
+        <el-select v-model="form.platform" placeholder="请选择游戏平台">
+          <el-option
+            v-for="item in platforms"
+            :key="item.id"
+            :label="item.name"
+            :value="item.name"
           ></el-option>
         </el-select>
       </el-form-item>
@@ -51,6 +61,10 @@ export default {
       require: true
     },
     gameTypes: {
+      type: Array,
+      require: true
+    },
+    platforms: {
       type: Array,
       require: true
     }

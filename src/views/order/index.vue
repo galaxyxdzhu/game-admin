@@ -10,6 +10,7 @@
       <el-table-column prop="name" label="客户姓名"> </el-table-column>
       <el-table-column prop="phone" label="客户电话"> </el-table-column>
       <el-table-column prop="size" label="硬盘大小"> </el-table-column>
+      <el-table-column prop="platform" label="游戏平台"> </el-table-column>
       <el-table-column prop="games" label="所选游戏">
         <template slot-scope="scope" v-if="scope.row.games">
           <div v-for="item in selectGames(scope.row.games)" :key="item.id">

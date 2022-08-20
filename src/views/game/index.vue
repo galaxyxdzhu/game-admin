@@ -43,6 +43,22 @@
           <el-button type="text" size="small" @click="showEditDialog(scope.row)"
             >编辑</el-button
           >
+          <el-button
+            v-if="!scope.row.isTop"
+            type="text"
+            size="small"
+            @click="toTop(scope.row, true)"
+            >置顶</el-button
+          >
+          <el-button
+            v-if="scope.row.isTop"
+            type="text"
+            size="small"
+            style="color: red"
+            @click="toTop(scope.row, false)"
+            >取消置顶</el-button
+          >
+
           <el-button type="text" size="small" @click="deleteGame(scope.row)"
             >删除</el-button
           >
@@ -66,15 +82,23 @@
       ref="gameEdit"
       :game="currentGame"
       :gameTypes="gameTypes"
+      :platforms="platforms"
       @updateSuccess="onSuccess"
     />
 
-    <GameAdd ref="gameAdd" :gameTypes="gameTypes" @updateSuccess="onSuccess" />
+    <GameAdd
+      ref="gameAdd"
+      :gameTypes="gameTypes"
+      :platforms="platforms"
+      @updateSuccess="onSuccess"
+    />
   </div>
 </template>
 
 <script>
+import { updateGame } from '@/api/game'
 import { getGames, deleteGame } from '@/api/game'
+import { getPlatforms } from '@/api/platform'
 import { getGameTypes } from '@/api/gameType'
 import GameEdit from './gameEdit.vue'
 import GameAdd from './gameAdd.vue'
@@ -89,6 +113,7 @@ export default {
       totalGames: [],
       originGames: [],
       gameTypes: [],
+      platforms: [],
       currentPage: 1,
       pageSize: 15,
       total: 0,
@@ -106,6 +131,7 @@ export default {
   created() {
     this.getGames()
     this.getGameTypes()
+    this.getPlatforms()
   },
   methods: {
     ...mapActions({
@@ -149,6 +175,18 @@ export default {
       this.$refs.gameEdit && this.$refs.gameEdit.show()
     },
 
+    async toTop(item, val) {
+      const ret = await updateGame({ id: item.id, isTop: val })
+      if (ret.code) {
+        this.$emit('updateSuccess')
+        this.$message.success('更新成功')
+      } else {
+        this.$message.success('更新失败')
+      }
+      this.getGames()
+      this.hide()
+    },
+
     showAddDialog() {
       this.$refs.gameAdd && this.$refs.gameAdd.show()
     },
@@ -157,7 +195,7 @@ export default {
       const ret = await getGames()
       if (ret) {
         const { data } = ret
-        const games = data.sort((a, b) => b.id - a.id)
+        const games = data
         this.totalGames = [...games]
         this.originGames = [...games]
         this.total = games.length
@@ -169,6 +207,12 @@ export default {
       if (ret) {
         const { data } = ret
         this.gameTypes = data
+      }
+    },
+    async getPlatforms() {
+      const ret = await getPlatforms()
+      if (ret) {
+        this.platforms = ret.data
       }
     },
     onCurrentPageChange(val) {

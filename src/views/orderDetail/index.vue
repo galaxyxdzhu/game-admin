@@ -21,7 +21,8 @@
         <el-table-column prop="name" min-width="350px" label="游戏名称">
         </el-table-column>
         <el-table-column prop="genre" label="游戏类型"> </el-table-column>
-        <el-table-column prop="size" label="游戏大小"> </el-table-column>
+        <el-table-column prop="size" label="游戏大小(G)"> </el-table-column>
+        <el-table-column prop="platform" label="游戏平台"> </el-table-column>
       </el-table>
     </div>
   </div>
