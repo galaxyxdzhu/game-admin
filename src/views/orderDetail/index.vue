@@ -5,6 +5,10 @@
         <span>姓名: </span>
         <span>{{ order.name }}</span>
       </div>
+      <div class="platform">
+        <span>主机系统版本: </span>
+        <span>{{ order.platform }}</span>
+      </div>
       <div class="phone">
         <span>电话: </span>
         <span>{{ order.phone }}</span>
