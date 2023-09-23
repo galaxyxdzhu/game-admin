@@ -2,12 +2,11 @@
   <div class="setting-container">
     <ul>
       <li>
-        <div class="name">web表格显示:</div>
+        <div class="name">游戏列表显示格式:</div>
         <div class="value">
           <el-radio-group v-model="tableIndex" @change="handleChange">
             <el-radio label="1">表格</el-radio>
             <el-radio label="2">图片</el-radio>
-            <el-radio label="3">全部</el-radio>
           </el-radio-group>
         </div>
       </li>
